@@ -4,7 +4,11 @@
 }
 
 html[theme="dark-mode"] {
-  /* ! */
+  /* 
+  darkmode 설정
+  invert 속성으로 색상 반전 (무채색인 경우)
+  hue-rotate 속성 -> 색상 휠을 180도로 돌려줌 ( 색상이 있는 경우 )
+   */
   filter: invert(100%) hue-rotate(180deg);
 }
 
@@ -143,7 +147,7 @@ input:checked + .slider {
 }
 
 input:checked + .slider::before {
-  /* ! */
+  /* 슬라이더 움직이는 표현 */
   transform: translateX(26px);
 }
 
@@ -154,9 +158,7 @@ input:checked + .slider::before {
 }
 
 .select-box select {
-  /* ! */
   font-size: 0.9rem;
-  /* ! */
   padding: 2px 5px;
   height: 34px;
   width: 200px;
