@@ -24,12 +24,13 @@ export class Keyboard {
   #addEvent() {
     this.#switchEl.addEventListener("change", this.#onChangeTheme);
     this.#fontSelect.addEventListener("change", this.#onChangeFont);
+    this.#inputEl.addEventListener("input", this.#onInput);
+    this.#keyboardEl.addEventListener("mousedown", this.#onMouseDown);
 
     // 키보드에 포커스되어 있지 않아도 키 입력을 인식할 수 있도록 다큐먼트단에 이벤트 걸어주기
     document.addEventListener("keydown", this.#onKeyDown.bind(this));
     document.addEventListener("keyup", this.#onKeyUp.bind(this));
-
-    this.#inputEl.addEventListener("input", this.#onInput);
+    document.addEventListener("mouseup", this.#onMouseUp.bind(this));
   }
 
   #onChangeTheme(event) {
@@ -65,5 +66,29 @@ export class Keyboard {
       /[ㄱ-ㅎ | ㅏ-ㅣ | 가-힣]/,
       ""
     );
+  }
+
+  #onMouseDown(event) {
+    event.target.closest("div.key")?.classList.add("active");
+  }
+
+  #onMouseUp(event) {
+    const keyEl = event.target.closest("div.key");
+    const isActive = !!keyEl?.classList.contains("active");
+    const val = keyEl?.dataset.val;
+
+    if (isActive && !!val && val !== "Space" && val !== "Backspace") {
+      this.#inputEl.value += val;
+    }
+
+    if (isActive && val === "Space") {
+      this.#inputEl.value += " ";
+    }
+
+    if (isActive && val === "Backspace") {
+      this.#inputEl.value = this.#inputEl.value.slice(0, -1);
+    }
+
+    this.#keyboardEl.querySelector(".active")?.classList.remove("active");
   }
 }
