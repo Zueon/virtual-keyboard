@@ -29,13 +29,7 @@ export class Keyboard {
     document.addEventListener("keydown", this.#onKeyDown.bind(this));
     document.addEventListener("keyup", this.#onKeyUp.bind(this));
 
-    this.#inputEl.addEventListener("input", (event) => {
-      console.log(event.target.value);
-      this.#inputEl.value = this.#inputEl.value.replace(
-        /[ㄱ-ㅎ | ㅏ-ㅣ | 가-힣]/,
-        ""
-      );
-    });
+    this.#inputEl.addEventListener("input", this.#onInput);
   }
 
   #onChangeTheme(event) {
@@ -63,5 +57,13 @@ export class Keyboard {
     this.#keyboardEl
       .querySelector(`[data-code=${event.code}]`)
       ?.classList.remove("active");
+  }
+
+  #onInput(event) {
+    console.log(event.target.value);
+    event.target.value = event.target.value.replace(
+      /[ㄱ-ㅎ | ㅏ-ㅣ | 가-힣]/,
+      ""
+    );
   }
 }
